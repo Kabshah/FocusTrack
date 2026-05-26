@@ -20,11 +20,10 @@ then presents everything in a clean, dark-themed dashboard.It is designed to be 
 ## Download
 
 1. Go to [Releases](https://github.com/Kabshah/FocusTrack/releases)
-2. Download `FocusTrack_vX.X.X_windows_amd64.zip`
+2. Download `FocusTrack_1.0.0_windows_amd64.zip`
 3. Extract the zip
 4. Run `FocusTrack.exe`
 
-No installation, no admin rights — just download and run.
 
 ## 📸 App in Action
 
