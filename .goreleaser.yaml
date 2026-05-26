@@ -1,0 +1,45 @@
+version: 2
+
+project_name: FocusTrack
+
+builds:
+  - id: FocusTrack-windows
+    main: ./cmd/FocusTrack
+    binary: FocusTrack
+    goos:
+      - windows
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+      - -H windowsgui
+      - -X main.version={{.Version}}
+      - -buildid=
+
+archives:
+  - id: FocusTrack-archive
+    format: zip
+    name_template: "FocusTrack_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^chore:"
+      - "^docs:"
+      - "^test:"
+
+release:
+  github:
+    owner: Kabshah
+    name: FocusTrack
+  name_template: "FocusTrack v{{.Version}}"
+  draft: false
+  prerelease: auto

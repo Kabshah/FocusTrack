@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FocusTrack</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Titlebar -->
+  <div class="titlebar">
+    <div class="app-dot" style="background: var(--accent);"></div>
+    <div class="titlebar-title">FocusTrack</div>
+  </div>
+
+  <!-- Tab bar -->
+  <nav class="tabs">
+    <div class="tab active" data-tab="today">Today</div>
+    <div class="tab" data-tab="week">This week</div>
+    <div class="tab" data-tab="settings">Settings</div>
+  </nav>
+
+  <!-- Today tab -->
+  <div id="today" class="content active">
+    <!-- Hero Card -->
+    <div class="card hero-card">
+      <div class="hero-left">
+        <div class="hero-label">Screen time today</div>
+        <div class="hero-time" id="today-total">0m</div>
+        <div class="hero-sub" id="today-sub">Loading...</div>
+      </div>
+      <div class="hero-ring">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="32" fill="none" stroke="#1e1e22" stroke-width="6"/>
+          <circle cx="40" cy="40" r="32" fill="none" stroke="#e8c87a" stroke-width="6"
+            stroke-dasharray="201" stroke-dashoffset="201" stroke-linecap="round"
+            id="ring-fill" style="transform: rotate(-90deg); transform-origin: center; transition: stroke-dashoffset 0.6s ease;"/>
+        </svg>
+        <div class="ring-label">
+          <span id="ring-pct">0%</span>
+          <span>of day</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section-label">Top Apps</div>
+    <div id="app-list" class="app-list"></div>
+  </div>
+
+  <!-- This Week tab -->
+  <div id="week" class="content">
+    <div class="card week-hero-card">
+      <div class="week-hero-top">
+        <div>
+          <div class="hero-label">This week</div>
+          <div class="hero-time" id="week-total">0m</div>
+          <div class="hero-sub" id="week-sub">Mon – Sun</div>
+        </div>
+        <div class="week-pct-block">
+          <div class="week-pct-label">of week used</div>
+          <div class="week-pct-val" id="week-pct">0.00%</div>
+          <div class="week-pct-sub">of 168 total hours</div>
+        </div>
+      </div>
+
+      <!-- Bar Chart -->
+      <div class="chart-area" id="week-chart">
+        <!-- 7 bar columns rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Stat Pills Row -->
+    <div class="stat-row">
+      <div class="card-sm stat-pill">
+        <div class="stat-pill-label">Daily avg</div>
+        <div class="stat-pill-val" id="week-avg">0m</div>
+        <div class="stat-pill-sub">across 7 days</div>
+      </div>
+      <div class="card-sm stat-pill">
+        <div class="stat-pill-label">Top app</div>
+        <div class="stat-pill-val stat-pill-val--sm" id="week-top-app">—</div>
+        <div class="stat-pill-sub" id="week-top-app-time">0m this week</div>
+      </div>
+      <div class="card-sm stat-pill">
+        <div class="stat-pill-label">Active days</div>
+        <div class="stat-pill-val" id="week-active-days">0 <span class="stat-pill-denom">/ 7</span></div>
+        <div class="stat-pill-sub">this week</div>
+      </div>
+    </div>
+
+    <div class="week-list-header">
+      <div id="week-back" class="back-btn" style="display:none;" onclick="clearDaySelection()">
+        ← This week
+      </div>
+      <div class="section-label" id="week-section-label">WEEKLY APP USAGE</div>
+    </div>
+    <div id="week-day-detail">
+      <div id="weekly-app-list" class="app-list"></div>
+    </div>
+  </div>
+
+  <!-- Settings tab -->
+  <div id="settings" class="content">
+
+    <!-- Behavior -->
+    <div class="section-label">Behavior</div>
+    <div class="card settings-card">
+      <div class="settings-row">
+        <div class="settings-row-left">
+          <div class="settings-row-title">Start with Windows</div>
+          <div class="settings-row-desc">Launch silently in the system tray on login</div>
+        </div>
+        <div class="toggle" id="toggle-startup" data-on="false"></div>
+      </div>
+      <div class="settings-row" style="border-top: 1px solid var(--border-soft);">
+        <div class="settings-row-left">
+          <div class="settings-row-title">Daily summary at 9 PM</div>
+          <div class="settings-row-desc">Toast notification with your day's screen time</div>
+        </div>
+        <div class="toggle" id="toggle-notify" data-on="false"></div>
+      </div>
+      <div class="settings-row" style="border-top: 1px solid var(--border-soft);">
+        <div class="settings-row-left">
+          <div class="settings-row-title">App limit alerts</div>
+          <div class="settings-row-desc">Notify when an app hits its daily limit</div>
+        </div>
+        <div class="toggle" id="toggle-limits" data-on="true"></div>
+      </div>
+    </div>
+
+    <!-- App Time Limits -->
+    <div class="section-label">App time limits</div>
+    <div class="card settings-card" id="limits-card">
+      <div id="limits-list"></div>
+      <div class="add-row">
+        <input class="settings-input" id="limit-app" placeholder="App name (e.g. chrome)" />
+        <input class="settings-input settings-input--sm" id="limit-min" placeholder="Min/day" type="number" min="1" />
+        <button class="add-btn" id="limit-add">Add</button>
+      </div>
+    </div>
+
+    <!-- Data -->
+    <div class="section-label">Data</div>
+    <div class="card settings-card">
+      <div class="data-note">
+        <div class="data-note-text">
+          All data is stored locally on this device. Nothing is sent to any server.
+          Usage history older than 6 months is deleted automatically.
+        </div>
+      </div>
+      <div style="padding: 0 0 4px;">
+        <button class="danger-btn" id="clear-data">Clear all usage data…</button>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="section-label">About</div>
+    <div class="card settings-card">
+      <div class="about-row">
+        <div>
+          <div class="settings-row-title">FocusTrack</div>
+          <div class="settings-row-desc">Version 1.0.0 · Windows 11</div>
+        </div>
+        <div class="version-badge">Up to date</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
