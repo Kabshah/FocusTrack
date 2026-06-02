@@ -24,9 +24,16 @@ then presents everything in a clean, dark-themed dashboard.It is designed to be 
 3. Extract the zip
 4. Run `FocusTrack.exe`
 
+## ⚠️ Windows SmartScreen Warning
+
+When you first run FocusTrack, Windows may show a SmartScreen warning because the executable is not code-signed.
+
+Click **"More info"** → **"Run anyway"** to proceed.
+
+This is expected for open-source apps without a paid code signing certificate. The full source code is available in this repository for review.
+
 
 ## 📸 App in Action
-
 
 
 ### Daily Dashboard
@@ -40,16 +47,6 @@ then presents everything in a clean, dark-themed dashboard.It is designed to be 
 ### App Time Limits & Settings
 *Configure notification alerts and set daily caps for distracting apps.*
 ![Settings & Limits](assets/settings.png)
-
-
-
-## ⚠️ Windows SmartScreen Warning
-
-When you first run FocusTrack, Windows may show a SmartScreen warning because the executable is not code-signed.
-
-Click **"More info"** → **"Run anyway"** to proceed.
-
-This is expected for open-source apps without a paid code signing certificate. The full source code is available in this repository for review.
 
 
 
