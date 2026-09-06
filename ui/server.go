@@ -154,7 +154,7 @@ func handleDayStats(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		date, err := time.Parse("2006-01-02", dateStr)
+		date, err := time.ParseInLocation("2006-01-02", dateStr, time.Local)
 		if err != nil {
 			http.Error(w, "invalid date format", http.StatusBadRequest)
 			return
