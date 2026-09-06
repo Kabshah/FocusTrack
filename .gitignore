@@ -1,11 +1,14 @@
 # Build output
 dist/
 *.exe
+*.lnk
+*.zip
 # User data — kabhi bhi commit mat karna
 *.db
 *.db-shm
 *.db-wal
 
-# IDE
+# IDE & Temp
 .idea/
 .vscode/
+*~
